@@ -17,8 +17,8 @@ class CreateOperationsTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->string('type');
-            $table->integer('sum');
-            $table->integer('sum_usd');
+            $table->float('sum');
+            $table->float('sum_usd');
             $table->integer('user_id');
             $table->timestamps();
         });
