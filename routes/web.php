@@ -20,6 +20,4 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 
-//Route::get('test', function () {
-//    return App\Libs\ApiPrivatbank::getCourse('usd');
-//});
+Route::get('api/operations', 'OperationController@index');
