@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
+import Store from './StoreOperation';
 
 export default class Operation extends Component {
     constructor(props) {
@@ -65,6 +66,7 @@ export default class Operation extends Component {
 
         return (
             <div className="container">
+                <Store />
                 <table className="table">
                     <thead className="thead-dark">
                     <tr>
@@ -96,5 +98,5 @@ export default class Operation extends Component {
 }
 
 if (document.getElementById('operation')) {
-    ReactDOM.render(<Operation/>, document.getElementById('operation'));
+    ReactDOM.render(<Operation />, document.getElementById('operation'));
 }

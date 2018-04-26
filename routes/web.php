@@ -20,4 +20,6 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 
+
 Route::get('api/operations', 'OperationController@index');
+Route::post('api/operations', 'OperationController@store');
