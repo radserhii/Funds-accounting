@@ -8,7 +8,9 @@ export default class Operation extends Component {
         this.state = {
             operations: [],
             sum: null
-        }
+        };
+        this.handleDelete = this.handleDelete.bind(this);
+        this.updateStateFromStore = this.updateStateFromStore.bind(this);
     }
 
     componentDidMount() {
@@ -21,6 +23,15 @@ export default class Operation extends Component {
             });
     }
 
+    handleDelete(id, title) {
+        confirm("Are you sure? Operation will be delete!");
+        console.log(id);
+    }
+
+    updateStateFromStore(operation) {
+        this.setState({operations: [operation, ...this.state.operations]});
+    }
+
     render() {
 
 
@@ -30,7 +41,7 @@ export default class Operation extends Component {
         if (this.state.operations.length !== 0) {
 
             // Compute total sum for GRN
-            const totalGrnArray = this.state.operations.map(function(item) {
+            const totalGrnArray = this.state.operations.map(function (item) {
                 return item.sum;
             });
 
@@ -41,7 +52,7 @@ export default class Operation extends Component {
             totalSumGrn = totalSumGrn.toFixed(2);
 
             // Compute total sum for USD
-            const totalUsdArray = this.state.operations.map(function(item) {
+            const totalUsdArray = this.state.operations.map(function (item) {
                 return item.sum_usd;
             });
 
@@ -61,12 +72,18 @@ export default class Operation extends Component {
                 <td>{operation.sum_usd}</td>
                 <td>{operation.created_at}</td>
                 <td></td>
+                <td>
+                    <button
+                        className="btn btn-danger"
+                        onClick={() => this.handleDelete(operation.id, operation.title)}>Delete
+                    </button>
+                </td>
             </tr>
         );
 
         return (
             <div className="container">
-                <Store />
+                <Store update={this.updateStateFromStore}/>
                 <table className="table">
                     <thead className="thead-dark">
                     <tr>
@@ -76,6 +93,7 @@ export default class Operation extends Component {
                         <th scope="col">Sum(GRN)</th>
                         <th scope="col">Sum(USD)</th>
                         <th scope="col">Created</th>
+                        <th scope="col"></th>
                         <th scope="col"></th>
                     </tr>
                     </thead>
@@ -98,5 +116,5 @@ export default class Operation extends Component {
 }
 
 if (document.getElementById('operation')) {
-    ReactDOM.render(<Operation />, document.getElementById('operation'));
+    ReactDOM.render(<Operation/>, document.getElementById('operation'));
 }

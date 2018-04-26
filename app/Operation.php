@@ -31,6 +31,12 @@ class Operation extends Model
             ->get();
     }
 
+    /**
+     * Store newly operation in db for authenticated user
+     * @param $userId
+     * @param $request
+     * @return Operation
+     */
     public function storeOperationForUser($userId, $request)
     {
         $operation = new Operation;

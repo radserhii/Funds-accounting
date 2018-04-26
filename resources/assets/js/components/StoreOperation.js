@@ -9,20 +9,7 @@ export default class StoreOperation extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-
-    // componentDidMount() {
-    //     axios.get('/api/operations')
-    //         .then(response => {
-    //             this.setState({operations: response.data});
-    //         })
-    //         .catch(error => {
-    //             console.log(error);
-    //         });
-    // }
-
     handleSubmit() {
-
-
         if (!this.refs.title.value
             || !this.refs.type.value
             || !this.refs.sum.value) {
@@ -37,7 +24,7 @@ export default class StoreOperation extends Component {
             sum: this.refs.sum.value
         })
             .then(response => {
-                console.log(response.data);
+                this.props.update(response.data);
             })
             .catch(error => {
                 console.log(error);
