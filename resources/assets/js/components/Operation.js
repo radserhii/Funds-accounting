@@ -5,7 +5,8 @@ export default class Operation extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            operations: []
+            operations: [],
+            sum: null
         }
     }
 
@@ -16,14 +17,43 @@ export default class Operation extends Component {
             })
             .catch(error => {
                 console.log(error);
-            })
+            });
     }
 
     render() {
 
+
+        let totalSumGrn = 0;
+        let totalSumUsd = 0;
+
+        if (this.state.operations.length !== 0) {
+
+            // Compute total sum for GRN
+            const totalGrnArray = this.state.operations.map(function(item) {
+                return item.sum;
+            });
+
+            totalGrnArray.forEach((item) => {
+                totalSumGrn += parseFloat(item);
+            });
+
+            totalSumGrn = totalSumGrn.toFixed(2);
+
+            // Compute total sum for USD
+            const totalUsdArray = this.state.operations.map(function(item) {
+                return item.sum_usd;
+            });
+
+            totalUsdArray.forEach((item) => {
+                totalSumUsd += parseFloat(item);
+            });
+
+            totalSumUsd = totalSumUsd.toFixed(2);
+        }
+
         const listItems = this.state.operations.map((operation, index) =>
             <tr key={operation.id}>
-                <th scope="row">{index + 1}</th>g
+                <th scope="row">{index + 1}</th>
                 <td>{operation.title}</td>
                 <td>{operation.type}</td>
                 <td>{operation.sum}</td>
@@ -49,6 +79,15 @@ export default class Operation extends Component {
                     </thead>
                     <tbody>
                     {listItems}
+                    <tr>
+                        <th scope="row"></th>
+                        <td><b>Total:</b></td>
+                        <td></td>
+                        <td><b>{totalSumGrn}</b></td>
+                        <td><b>{totalSumUsd}</b></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
                     </tbody>
                 </table>
             </div>

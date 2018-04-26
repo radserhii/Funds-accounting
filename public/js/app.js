@@ -36303,7 +36303,8 @@ var Operation = function (_Component) {
         var _this = _possibleConstructorReturn(this, (Operation.__proto__ || Object.getPrototypeOf(Operation)).call(this, props));
 
         _this.state = {
-            operations: []
+            operations: [],
+            sum: null
         };
         return _this;
     }
@@ -36322,6 +36323,34 @@ var Operation = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
+
+            var totalSumGrn = 0;
+            var totalSumUsd = 0;
+
+            if (this.state.operations.length !== 0) {
+
+                // Compute total sum for GRN
+                var totalGrnArray = this.state.operations.map(function (item) {
+                    return item.sum;
+                });
+
+                totalGrnArray.forEach(function (item) {
+                    totalSumGrn += parseFloat(item);
+                });
+
+                totalSumGrn = totalSumGrn.toFixed(2);
+
+                // Compute total sum for USD
+                var totalUsdArray = this.state.operations.map(function (item) {
+                    return item.sum_usd;
+                });
+
+                totalUsdArray.forEach(function (item) {
+                    totalSumUsd += parseFloat(item);
+                });
+
+                totalSumUsd = totalSumUsd.toFixed(2);
+            }
 
             var listItems = this.state.operations.map(function (operation, index) {
                 return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -36409,7 +36438,42 @@ var Operation = function (_Component) {
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'tbody',
                         null,
-                        listItems
+                        listItems,
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'tr',
+                            null,
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('th', { scope: 'row' }),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'td',
+                                null,
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'b',
+                                    null,
+                                    'Total:'
+                                )
+                            ),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('td', null),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'td',
+                                null,
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'b',
+                                    null,
+                                    totalSumGrn
+                                )
+                            ),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'td',
+                                null,
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'b',
+                                    null,
+                                    totalSumUsd
+                                )
+                            ),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('td', null),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('td', null)
+                        )
                     )
                 )
             );
