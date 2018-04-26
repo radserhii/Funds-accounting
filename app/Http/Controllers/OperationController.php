@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Operation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Libs\ApiPrivatbank;
 
 class OperationController extends Controller
 {
@@ -36,9 +37,12 @@ class OperationController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Operation $operation)
     {
-        //
+        $userId = Auth::id();
+        $operation = $operation->storeOperationForUser($userId, $request);
+
+        return response()->json($operation, 200);
     }
 
     /**

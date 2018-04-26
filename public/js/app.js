@@ -55078,88 +55078,137 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var StoreOperation = function (_Component) {
     _inherits(StoreOperation, _Component);
 
-    function StoreOperation() {
+    function StoreOperation(props) {
         _classCallCheck(this, StoreOperation);
 
-        return _possibleConstructorReturn(this, (StoreOperation.__proto__ || Object.getPrototypeOf(StoreOperation)).apply(this, arguments));
+        var _this = _possibleConstructorReturn(this, (StoreOperation.__proto__ || Object.getPrototypeOf(StoreOperation)).call(this, props));
+
+        _this.state = {
+            error: false
+        };
+        _this.handleSubmit = _this.handleSubmit.bind(_this);
+        return _this;
     }
 
+    // componentDidMount() {
+    //     axios.get('/api/operations')
+    //         .then(response => {
+    //             this.setState({operations: response.data});
+    //         })
+    //         .catch(error => {
+    //             console.log(error);
+    //         });
+    // }
+
     _createClass(StoreOperation, [{
-        key: "render",
+        key: 'handleSubmit',
+        value: function handleSubmit() {
 
-        // constructor(props) {
-        //     super(props);
-        //     this.state = {
-        //         operations: [],
-        //         sum: null
-        //     }
-        // }
+            if (!this.refs.title.value || !this.refs.type.value || !this.refs.sum.value) {
+                this.setState({ error: true });
+                return null;
+            }
+            this.setState({ error: false });
 
-        // componentDidMount() {
-        //     axios.get('/api/operations')
-        //         .then(response => {
-        //             this.setState({operations: response.data});
-        //         })
-        //         .catch(error => {
-        //             console.log(error);
-        //         });
-        // }
-
+            axios.post('/api/operations', {
+                title: this.refs.title.value,
+                type: this.refs.type.value,
+                sum: this.refs.sum.value
+            }).then(function (response) {
+                console.log(response.data);
+            }).catch(function (error) {
+                console.log(error);
+            });
+        }
+    }, {
+        key: 'render',
         value: function render() {
 
+            var error = "Input all fields";
+
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                "form",
+                'div',
                 null,
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    "h3",
+                    'h3',
                     null,
-                    "Add new operation:"
+                    'Add new operation:'
                 ),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    "div",
-                    { className: "form-group" },
+                    'div',
+                    { className: this.state.error ? "text-danger" : "" },
+                    this.state.error ? error : ""
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'div',
+                    { className: 'form-group' },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        "label",
-                        { htmlFor: "title" },
-                        "Operation:"
+                        'label',
+                        { htmlFor: 'title' },
+                        'Operation:'
                     ),
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { type: "text", name: "title", className: "form-control", id: "title", placeholder: "" })
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { ref: 'title',
+                        type: 'text',
+                        name: 'title',
+                        className: 'form-control',
+                        id: 'title',
+                        placeholder: '',
+                        required: true })
                 ),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    "div",
-                    { className: "row" },
+                    'div',
+                    { className: 'row' },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        "div",
-                        { className: "form-group col-sm-3" },
+                        'div',
+                        { className: 'form-group col-sm-3' },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            "label",
-                            { htmlFor: "type" },
-                            "Type:"
+                            'label',
+                            { htmlFor: 'type' },
+                            'Type:'
                         ),
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            "select",
-                            { name: "type", className: "form-control", id: "type" },
+                            'select',
+                            { ref: 'type',
+                                name: 'type',
+                                className: 'form-control',
+                                id: 'type' },
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                "option",
-                                { value: "credit" },
-                                "Credit"
+                                'option',
+                                { value: 'credit' },
+                                'Credit'
                             ),
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                "option",
-                                { value: "debit" },
-                                "Debit"
+                                'option',
+                                { value: 'debit' },
+                                'Debit'
                             )
                         )
                     ),
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        "div",
-                        { className: "form-group col-sm-3" },
+                        'div',
+                        { className: 'form-group col-sm-3' },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            "label",
-                            { htmlFor: "sum" },
-                            "Sum:"
+                            'label',
+                            { htmlFor: 'sum' },
+                            'Sum:'
                         ),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { type: "number", name: "sum", className: "form-control", id: "sum", placeholder: "" })
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { ref: 'sum',
+                            type: 'number',
+                            name: 'sum',
+                            className: 'form-control',
+                            id: 'sum',
+                            placeholder: '',
+                            required: true })
+                    )
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'div',
+                    { className: 'form-group' },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'button',
+                        { className: 'btn btn-outline-success',
+                            onClick: this.handleSubmit },
+                        'Save'
                     )
                 )
             );

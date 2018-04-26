@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Operation extends Model
 {
-    protected $guarded = [];
+    protected $fillable = ['title', 'type', 'sum'];
 
     /**
      * Get the user that owns operation
@@ -18,13 +18,32 @@ class Operation extends Model
         return $this->belongsTo('App\User');
     }
 
+    /**
+     * Get all operations for authenticated user
+     * @param $userId
+     * @return mixed
+     */
     public function getOperationsForUser($userId)
     {
         return $this->whereHas('user', function ($query) use ($userId) {
             $query->where('id', $userId);
-        })
-            ->orderBy('created_at', 'DESC')
+        })->orderBy('created_at', 'DESC')
             ->get();
+    }
+
+    public function storeOperationForUser($userId, $request)
+    {
+        $operation = new Operation;
+
+        $operation->title = $request->title;
+        $operation->type = $request->type;
+        $operation->sum = $request->sum;
+//        $operation->sum_usd = App\Libs\ApiPrivatbank::getCourse('usd');
+        $operation->sum_usd = $request->sum / 2;
+        $operation->user_id = $userId;
+        $operation->save();
+
+        return $operation;
     }
 
 }
