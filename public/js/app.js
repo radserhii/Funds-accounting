@@ -36488,7 +36488,7 @@ var Operation = function (_Component) {
     }, {
         key: 'handleEdit',
         value: function handleEdit(id) {
-            window.location.pathname = "/api/operation/" + id + "/edit";
+            window.location.pathname = "/api/operations/" + id + "/edit";
         }
     }, {
         key: 'handleDelete',
@@ -55305,44 +55305,67 @@ var EditOperation = function (_Component) {
             type: _this.props.type,
             sum: _this.props.sum,
             error: false
-            // this.handleSubmit = this.handleSubmit.bind(this);
-        };return _this;
+        };
+
+        _this.handleTitle = _this.handleTitle.bind(_this);
+        _this.handleType = _this.handleType.bind(_this);
+        _this.handleSum = _this.handleSum.bind(_this);
+        _this.handleUpdate = _this.handleUpdate.bind(_this);
+        _this.handleCancel = _this.handleCancel.bind(_this);
+        return _this;
     }
 
-    // handleSubmit() {
-    //     if (!this.refs.title.value
-    //         || !this.refs.type.value
-    //         || !this.refs.sum.value) {
-    //         this.setState({error: true});
-    //         return null;
-    //     }
-    //     this.setState({error: false});
-    //
-    //     axios.post('/api/operations', {
-    //         title: this.refs.title.value,
-    //         type: this.refs.type.value,
-    //         sum: this.refs.sum.value
-    //     })
-    //         .then(response => {
-    //             this.props.update(response.data);
-    //         })
-    //         .catch(error => {
-    //             console.log(error);
-    //         });
-    //
-    //     this.refs.title.value = null;
-    //     this.refs.type.value = "credit";
-    //     this.refs.sum.value = null;
-    // }
-
     _createClass(EditOperation, [{
+        key: "handleTitle",
+        value: function handleTitle() {
+            this.setState({ title: this.refs.title.value });
+        }
+    }, {
+        key: "handleType",
+        value: function handleType() {
+            this.setState({ type: this.refs.type.value });
+        }
+    }, {
+        key: "handleSum",
+        value: function handleSum() {
+            this.setState({ sum: this.refs.sum.value });
+        }
+    }, {
+        key: "handleUpdate",
+        value: function handleUpdate() {
+            if (!this.state.title || !this.state.type || !this.state.sum) {
+                this.setState({ error: true });
+                return null;
+            }
+            this.setState({ error: false });
+
+            axios.put("/api/operations/" + this.state.id, {
+                title: this.state.title,
+                type: this.state.type,
+                sum: this.state.sum
+            }).then(function (response) {
+                window.location.pathname = "/home";
+            }).catch(function (error) {
+                console.log(error);
+            });
+
+            // this.refs.title.value = null;
+            // this.refs.type.value = "credit";
+            // this.refs.sum.value = null;
+        }
+    }, {
+        key: "handleCancel",
+        value: function handleCancel() {
+            window.location.pathname = "/home";
+        }
+    }, {
         key: "render",
         value: function render() {
             var error = "Input all fields";
 
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 "div",
-                null,
+                { className: "offset-sm-4 col-sm-4" },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     "h3",
                     null,
@@ -55366,6 +55389,7 @@ var EditOperation = function (_Component) {
                         name: "title",
                         className: "form-control",
                         id: "title",
+                        onChange: this.handleTitle,
                         defaultValue: this.state.title,
                         required: true })
                 ),
@@ -55374,7 +55398,7 @@ var EditOperation = function (_Component) {
                     { className: "row" },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         "div",
-                        { className: "form-group col-sm-3" },
+                        { className: "form-group col-sm-6" },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                             "label",
                             { htmlFor: "type" },
@@ -55385,24 +55409,24 @@ var EditOperation = function (_Component) {
                             { ref: "type",
                                 name: "type",
                                 className: "form-control",
-                                id: "type" },
+                                id: "type",
+                                onChange: this.handleType,
+                                value: this.state.type },
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 "option",
-                                { value: "credit",
-                                    defaultChecked: this.state.type === "credit" ? "checked" : "" },
+                                { value: "credit" },
                                 "Credit"
                             ),
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 "option",
-                                { value: "debit",
-                                    defaultChecked: this.state.type === "debit" ? "checked" : "" },
+                                { value: "debit" },
                                 "Debit"
                             )
                         )
                     ),
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         "div",
-                        { className: "form-group col-sm-3" },
+                        { className: "form-group col-sm-6" },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                             "label",
                             { htmlFor: "sum" },
@@ -55413,11 +55437,27 @@ var EditOperation = function (_Component) {
                             name: "sum",
                             className: "form-control",
                             id: "sum",
+                            onChange: this.handleSum,
                             defaultValue: this.state.sum,
                             required: true })
                     )
                 ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", { className: "form-group" })
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    "div",
+                    { className: "form-group" },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        "button",
+                        { className: "btn btn-outline-success",
+                            onClick: this.handleUpdate },
+                        "Update"
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        "button",
+                        { className: "btn btn-outline-primary",
+                            onClick: this.handleCancel },
+                        "Cancel"
+                    )
+                )
             );
         }
     }]);

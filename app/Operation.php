@@ -19,12 +19,6 @@ class Operation extends Model
         return $this->belongsTo('App\User');
     }
 
-    public function getOperation($id)
-    {
-        $operation = $this->findOrFail($id);
-        return $operation;
-    }
-
     /**
      * Get all operations for authenticated user
      * @param $userId
@@ -56,6 +50,28 @@ class Operation extends Model
         $operation->save();
 
         return $operation;
+    }
+
+    /**
+     * Get a single operation by id
+     * @param $id
+     * @return mixed
+     */
+    public function getOperation($id)
+    {
+        $operation = $this->findOrFail($id);
+        return $operation;
+    }
+
+
+    public function updateOperation($id, $request)
+    {
+        $operation = $this->findOrFail($id);
+        $operation->title = $request->title;
+        $operation->type = $request->type;
+        $operation->sum = $request->sum;
+        $operation->sum_usd = round($request->sum / ApiPrivatbank::getCourse('usd'), 2);
+        $operation->save();
     }
 
     /**

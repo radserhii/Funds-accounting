@@ -52,9 +52,11 @@ class OperationController extends Controller
      * @param  \App\Operation $operation
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Operation $operation)
+    public function update($id, Request $request, Operation $operation)
     {
-        //
+        $operation->updateOperation($id, $request);
+
+        return response()->json("Operation updated successful", 200);
     }
 
     /**
