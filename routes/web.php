@@ -23,5 +23,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 //Api for React
 Route::get('api/operations', 'OperationController@index');
 Route::post('api/operations', 'OperationController@store');
-
+Route::get('api/operation/{id}/edit', 'OperationController@edit');
 Route::delete('api/operations/{id}', 'OperationController@destroy');

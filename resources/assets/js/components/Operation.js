@@ -9,6 +9,7 @@ export default class Operation extends Component {
             operations: [],
             sum: null
         };
+        this.handleEdit = this.handleEdit.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
         this.updateStateFromStore = this.updateStateFromStore.bind(this);
     }
@@ -21,6 +22,10 @@ export default class Operation extends Component {
             .catch(error => {
                 console.log(error);
             });
+    }
+
+    handleEdit(id) {
+        window.location.pathname = "/api/operation/" + id + "/edit";
     }
 
     handleDelete(id) {
@@ -81,7 +86,12 @@ export default class Operation extends Component {
                 <td>{operation.sum}</td>
                 <td>{operation.sum_usd}</td>
                 <td>{operation.created_at}</td>
-                <td></td>
+                <td>
+                    <button
+                        className="btn btn-primary"
+                        onClick={() => this.handleEdit(operation.id)}>Edit
+                    </button>
+                </td>
                 <td>
                     <button
                         className="btn btn-danger"

@@ -15,3 +15,4 @@ require('./bootstrap');
 
 require('./components/Operation');
 require('./components/StoreOperation');
+require('./components/EditOperation');

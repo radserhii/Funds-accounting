@@ -35,14 +35,14 @@ class OperationController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Operation $operation
-     * @return \Illuminate\Http\Response
+     * Show the form for editing the operation
+     * @param $id - operation id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit()
+    public function edit($id, Operation $operation)
     {
-        //
+        $operation = $operation->getOperation($id);
+        return view('edit-operation', ['operation' => $operation]);
     }
 
     /**
@@ -57,7 +57,12 @@ class OperationController extends Controller
         //
     }
 
-
+    /**
+     * Delete the operation from the storage
+     * @param $id - operation id
+     * @param Operation $operation
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function destroy($id, Operation $operation)
     {
         $operation->deleteOperation($id);

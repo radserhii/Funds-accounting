@@ -19,6 +19,12 @@ class Operation extends Model
         return $this->belongsTo('App\User');
     }
 
+    public function getOperation($id)
+    {
+        $operation = $this->findOrFail($id);
+        return $operation;
+    }
+
     /**
      * Get all operations for authenticated user
      * @param $userId
@@ -52,6 +58,10 @@ class Operation extends Model
         return $operation;
     }
 
+    /**
+     * Delete the operation from the db
+     * @param $id - operation id
+     */
     public function deleteOperation($id)
     {
         $operation = $this->find($id);

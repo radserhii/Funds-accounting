@@ -14228,6 +14228,7 @@ __webpack_require__(20);
 
 __webpack_require__(44);
 __webpack_require__(17);
+__webpack_require__(64);
 
 /***/ }),
 /* 20 */
@@ -36467,6 +36468,7 @@ var Operation = function (_Component) {
             operations: [],
             sum: null
         };
+        _this.handleEdit = _this.handleEdit.bind(_this);
         _this.handleDelete = _this.handleDelete.bind(_this);
         _this.updateStateFromStore = _this.updateStateFromStore.bind(_this);
         return _this;
@@ -36482,6 +36484,11 @@ var Operation = function (_Component) {
             }).catch(function (error) {
                 console.log(error);
             });
+        }
+    }, {
+        key: 'handleEdit',
+        value: function handleEdit(id) {
+            window.location.pathname = "/api/operation/" + id + "/edit";
         }
     }, {
         key: 'handleDelete',
@@ -36569,7 +36576,19 @@ var Operation = function (_Component) {
                         null,
                         operation.created_at
                     ),
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('td', null),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'td',
+                        null,
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'button',
+                            {
+                                className: 'btn btn-primary',
+                                onClick: function onClick() {
+                                    return _this3.handleEdit(operation.id);
+                                } },
+                            'Edit'
+                        )
+                    ),
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'td',
                         null,
@@ -55246,6 +55265,173 @@ module.exports = camelize;
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 60 */,
+/* 61 */,
+/* 62 */,
+/* 63 */,
+/* 64 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(47);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+var EditOperation = function (_Component) {
+    _inherits(EditOperation, _Component);
+
+    function EditOperation(props) {
+        _classCallCheck(this, EditOperation);
+
+        var _this = _possibleConstructorReturn(this, (EditOperation.__proto__ || Object.getPrototypeOf(EditOperation)).call(this, props));
+
+        _this.state = {
+            id: _this.props.id,
+            title: _this.props.title,
+            type: _this.props.type,
+            sum: _this.props.sum,
+            error: false
+            // this.handleSubmit = this.handleSubmit.bind(this);
+        };return _this;
+    }
+
+    // handleSubmit() {
+    //     if (!this.refs.title.value
+    //         || !this.refs.type.value
+    //         || !this.refs.sum.value) {
+    //         this.setState({error: true});
+    //         return null;
+    //     }
+    //     this.setState({error: false});
+    //
+    //     axios.post('/api/operations', {
+    //         title: this.refs.title.value,
+    //         type: this.refs.type.value,
+    //         sum: this.refs.sum.value
+    //     })
+    //         .then(response => {
+    //             this.props.update(response.data);
+    //         })
+    //         .catch(error => {
+    //             console.log(error);
+    //         });
+    //
+    //     this.refs.title.value = null;
+    //     this.refs.type.value = "credit";
+    //     this.refs.sum.value = null;
+    // }
+
+    _createClass(EditOperation, [{
+        key: "render",
+        value: function render() {
+            var error = "Input all fields";
+
+            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                "div",
+                null,
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    "h3",
+                    null,
+                    "Update operation:"
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    "div",
+                    { className: this.state.error ? "text-danger" : "" },
+                    this.state.error ? error : ""
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    "div",
+                    { className: "form-group" },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        "label",
+                        { htmlFor: "title" },
+                        "Operation:"
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { ref: "title",
+                        type: "text",
+                        name: "title",
+                        className: "form-control",
+                        id: "title",
+                        defaultValue: this.state.title,
+                        required: true })
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    "div",
+                    { className: "row" },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        "div",
+                        { className: "form-group col-sm-3" },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            "label",
+                            { htmlFor: "type" },
+                            "Type:"
+                        ),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            "select",
+                            { ref: "type",
+                                name: "type",
+                                className: "form-control",
+                                id: "type" },
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                "option",
+                                { value: "credit",
+                                    defaultChecked: this.state.type === "credit" ? "checked" : "" },
+                                "Credit"
+                            ),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                "option",
+                                { value: "debit",
+                                    defaultChecked: this.state.type === "debit" ? "checked" : "" },
+                                "Debit"
+                            )
+                        )
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        "div",
+                        { className: "form-group col-sm-3" },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            "label",
+                            { htmlFor: "sum" },
+                            "Sum:"
+                        ),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { ref: "sum",
+                            type: "number",
+                            name: "sum",
+                            className: "form-control",
+                            id: "sum",
+                            defaultValue: this.state.sum,
+                            required: true })
+                    )
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", { className: "form-group" })
+            );
+        }
+    }]);
+
+    return EditOperation;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+
+/* harmony default export */ __webpack_exports__["default"] = (EditOperation);
+
+
+var editOperation = document.getElementById('edit-operation');
+if (editOperation) {
+    __WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(EditOperation, editOperation.dataset), editOperation);
+}
 
 /***/ })
 /******/ ]);
