@@ -49,32 +49,23 @@ export default class Operation extends Component {
 
     render() {
 
-
         let totalSumGrn = 0;
         let totalSumUsd = 0;
 
         if (this.state.operations.length !== 0) {
 
             // Compute total sum for GRN
-            const totalGrnArray = this.state.operations.map(function (item) {
-                return item.sum;
+            this.state.operations.forEach(function (operation) {
+                if (operation.type === "credit") totalSumGrn -= operation.sum;
+                if (operation.type === "debit") totalSumGrn += operation.sum;
             });
-
-            totalGrnArray.forEach((item) => {
-                totalSumGrn += parseFloat(item);
-            });
-
             totalSumGrn = totalSumGrn.toFixed(2);
 
             // Compute total sum for USD
-            const totalUsdArray = this.state.operations.map(function (item) {
-                return item.sum_usd;
+            this.state.operations.forEach(function (operation) {
+                if (operation.type === "credit") totalSumUsd -= operation.sum_usd;
+                if (operation.type === "debit") totalSumUsd += operation.sum_usd;
             });
-
-            totalUsdArray.forEach((item) => {
-                totalSumUsd += parseFloat(item);
-            });
-
             totalSumUsd = totalSumUsd.toFixed(2);
         }
 
@@ -83,8 +74,12 @@ export default class Operation extends Component {
                 <th scope="row">{index + 1}</th>
                 <td>{operation.title}</td>
                 <td>{operation.type}</td>
-                <td>{operation.sum}</td>
-                <td>{operation.sum_usd}</td>
+                <td className={operation.type === 'credit' ? "text-danger" : "text-success"}>
+                    {operation.type === 'credit' ? "-" : ""}{operation.sum}
+                </td>
+                <td className={operation.type === 'credit' ? "text-danger" : "text-success"}>
+                    {operation.type === 'credit' ? "-" : ""}{operation.sum_usd}
+                    </td>
                 <td>{operation.created_at}</td>
                 <td>
                     <button

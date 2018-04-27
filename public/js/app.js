@@ -36520,25 +36520,17 @@ var Operation = function (_Component) {
             if (this.state.operations.length !== 0) {
 
                 // Compute total sum for GRN
-                var totalGrnArray = this.state.operations.map(function (item) {
-                    return item.sum;
+                this.state.operations.forEach(function (operation) {
+                    if (operation.type === "credit") totalSumGrn -= operation.sum;
+                    if (operation.type === "debit") totalSumGrn += operation.sum;
                 });
-
-                totalGrnArray.forEach(function (item) {
-                    totalSumGrn += parseFloat(item);
-                });
-
                 totalSumGrn = totalSumGrn.toFixed(2);
 
                 // Compute total sum for USD
-                var totalUsdArray = this.state.operations.map(function (item) {
-                    return item.sum_usd;
+                this.state.operations.forEach(function (operation) {
+                    if (operation.type === "credit") totalSumUsd -= operation.sum_usd;
+                    if (operation.type === "debit") totalSumUsd += operation.sum_usd;
                 });
-
-                totalUsdArray.forEach(function (item) {
-                    totalSumUsd += parseFloat(item);
-                });
-
                 totalSumUsd = totalSumUsd.toFixed(2);
             }
 
@@ -36563,12 +36555,14 @@ var Operation = function (_Component) {
                     ),
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'td',
-                        null,
+                        { className: operation.type === 'credit' ? "text-danger" : "text-success" },
+                        operation.type === 'credit' ? "-" : "",
                         operation.sum
                     ),
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'td',
-                        null,
+                        { className: operation.type === 'credit' ? "text-danger" : "text-success" },
+                        operation.type === 'credit' ? "-" : "",
                         operation.sum_usd
                     ),
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
