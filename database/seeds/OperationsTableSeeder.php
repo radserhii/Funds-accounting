@@ -16,7 +16,7 @@ class OperationsTableSeeder extends Seeder
         foreach (range(1,10) as $index) {
 
             $sum = $faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 10000);
-            $sumUsd = $sum / App\Libs\ApiPrivatbank::getCourse('usd');
+            $sumUsd = round($sum / App\Libs\ApiPrivatbank::getCourse('usd'), 2);
 
             DB::table('operations')->insert([
                 'title' => $faker->sentence($nbWords = 4, $variableNbWords = true),
