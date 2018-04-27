@@ -23,9 +23,18 @@ export default class Operation extends Component {
             });
     }
 
-    handleDelete(id, title) {
+    handleDelete(id) {
         confirm("Are you sure? Operation will be delete!");
-        console.log(id);
+
+        axios.delete(`/api/operations/${id}`)
+            .then(response => {
+                console.log(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+
+        this.componentDidMount();
     }
 
     updateStateFromStore(operation) {
@@ -76,7 +85,7 @@ export default class Operation extends Component {
                 <td>
                     <button
                         className="btn btn-danger"
-                        onClick={() => this.handleDelete(operation.id, operation.title)}>Delete
+                        onClick={() => this.handleDelete(operation.id)}>Delete
                     </button>
                 </td>
             </tr>

@@ -36485,9 +36485,16 @@ var Operation = function (_Component) {
         }
     }, {
         key: 'handleDelete',
-        value: function handleDelete(id, title) {
+        value: function handleDelete(id) {
             confirm("Are you sure? Operation will be delete!");
-            console.log(id);
+
+            axios.delete('/api/operations/' + id).then(function (response) {
+                console.log(response.data);
+            }).catch(function (error) {
+                console.log(error);
+            });
+
+            this.componentDidMount();
         }
     }, {
         key: 'updateStateFromStore',
@@ -36571,7 +36578,7 @@ var Operation = function (_Component) {
                             {
                                 className: 'btn btn-danger',
                                 onClick: function onClick() {
-                                    return _this3.handleDelete(operation.id, operation.title);
+                                    return _this3.handleDelete(operation.id);
                                 } },
                             'Delete'
                         )

@@ -52,4 +52,9 @@ class Operation extends Model
         return $operation;
     }
 
+    public function deleteOperation($id)
+    {
+        $operation = $this->find($id);
+        $operation->delete();
+    }
 }

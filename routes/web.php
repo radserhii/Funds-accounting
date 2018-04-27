@@ -24,4 +24,4 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('api/operations', 'OperationController@index');
 Route::post('api/operations', 'OperationController@store');
 
-Route::delete('api/operations/{operation}', 'OperationController@destroy');
+Route::delete('api/operations/{id}', 'OperationController@destroy');

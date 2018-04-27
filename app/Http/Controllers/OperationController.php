@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Operation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Libs\ApiPrivatbank;
 
 class OperationController extends Controller
 {
@@ -32,7 +31,7 @@ class OperationController extends Controller
         $userId = Auth::id();
         $operation = $operation->storeOperationForUser($userId, $request);
 
-        return response()->json($operation, 200);
+        return response()->json($operation, 201);
     }
 
     /**
@@ -58,14 +57,10 @@ class OperationController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Operation $operation
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Operation $operation)
+
+    public function destroy($id, Operation $operation)
     {
-        //
+        $operation->deleteOperation($id);
+        return response()->json('Successful delete', 200);
     }
 }
