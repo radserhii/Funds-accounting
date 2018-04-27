@@ -46,11 +46,11 @@ class OperationController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \App\Operation $operation
-     * @return \Illuminate\Http\Response
+     * Update the operation in storage
+     * @param $id - id operation
+     * @param Request $request
+     * @param Operation $operation
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update($id, Request $request, Operation $operation)
     {

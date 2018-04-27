@@ -8,6 +8,7 @@ use App\Libs\ApiPrivatbank;
 
 class Operation extends Model
 {
+
     protected $fillable = ['title', 'type', 'sum'];
 
     /**
@@ -64,6 +65,11 @@ class Operation extends Model
     }
 
 
+    /**
+     * Update the operation in db
+     * @param $id
+     * @param $request
+     */
     public function updateOperation($id, $request)
     {
         $operation = $this->findOrFail($id);
