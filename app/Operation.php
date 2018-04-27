@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Libs\ApiPrivatbank;
 
 
 class Operation extends Model
@@ -44,8 +45,7 @@ class Operation extends Model
         $operation->title = $request->title;
         $operation->type = $request->type;
         $operation->sum = $request->sum;
-//        $operation->sum_usd = App\Libs\ApiPrivatbank::getCourse('usd');
-        $operation->sum_usd = $request->sum / 2;
+        $operation->sum_usd = round($request->sum / ApiPrivatbank::getCourse('usd'), 2);
         $operation->user_id = $userId;
         $operation->save();
 

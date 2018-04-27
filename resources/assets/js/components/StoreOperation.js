@@ -29,6 +29,10 @@ export default class StoreOperation extends Component {
             .catch(error => {
                 console.log(error);
             });
+
+        this.refs.title.value = null;
+        this.refs.type.value = "credit";
+        this.refs.sum.value = null;
     }
 
     render() {

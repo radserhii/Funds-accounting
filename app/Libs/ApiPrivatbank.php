@@ -28,7 +28,7 @@ class ApiPrivatbank
         if ($response->getStatusCode() === 200) {
             foreach ($res as $item) {
                 if ($item->ccy == strtoupper($ccy)) {
-                    $rate = $item->buy;
+                    $rate = ($item->buy);
                 };
             }
         }

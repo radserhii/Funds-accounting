@@ -20,6 +20,8 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 
-
+//Api for React
 Route::get('api/operations', 'OperationController@index');
 Route::post('api/operations', 'OperationController@store');
+
+Route::delete('api/operations/{operation}', 'OperationController@destroy');

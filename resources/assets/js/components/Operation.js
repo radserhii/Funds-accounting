@@ -29,7 +29,8 @@ export default class Operation extends Component {
     }
 
     updateStateFromStore(operation) {
-        this.setState({operations: [operation, ...this.state.operations]});
+        // this.setState({operations: [operation, ...this.state.operations]});
+        this.componentDidMount();
     }
 
     render() {
