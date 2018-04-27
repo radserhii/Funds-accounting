@@ -21,8 +21,10 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 //Api for React
-Route::get('api/operations', 'OperationController@index');
-Route::post('api/operations', 'OperationController@store');
-Route::get('api/operations/{id}/edit', 'OperationController@edit');
-Route::put('api/operations/{id}', 'OperationController@update');
-Route::delete('api/operations/{id}', 'OperationController@destroy');
+Route::group(['middleware' => ['auth'], 'prefix' => 'api'], function () {
+    Route::get('operations', 'OperationController@index');
+    Route::post('operations', 'OperationController@store');
+    Route::get('operations/{id}/edit', 'OperationController@edit');
+    Route::put('operations/{id}', 'OperationController@update');
+    Route::delete('operations/{id}', 'OperationController@destroy');
+});
