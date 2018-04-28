@@ -52,11 +52,18 @@ class Operation extends Model
     public function storeOperationForUser($userId, $request)
     {
         $operation = new Operation;
+        $currentCourse = ApiPrivatbank::getCourse('usd');
 
         $operation->title = $request->title;
         $operation->type = $request->type;
         $operation->sum = $request->sum;
-        $operation->sum_usd = round($request->sum / ApiPrivatbank::getCourse('usd'), 2);
+
+        if($currentCourse) {
+            $operation->sum_usd = round($request->sum / $currentCourse, 2);
+        } else {
+            $operation->sum_usd = 0;
+        }
+
         $operation->user_id = $userId;
         $operation->save();
 

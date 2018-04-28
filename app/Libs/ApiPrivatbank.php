@@ -21,16 +21,16 @@ class ApiPrivatbank
     {
         $client = new Client();
         $response = $client->request('GET', 'https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5');
+
+        if ($response->getStatusCode() !== 200) {
+            return null;
+        }
+        $rate = 0;
         $res = json_decode($response->getBody());
-
-        $rate = null;
-
-        if ($response->getStatusCode() === 200) {
-            foreach ($res as $item) {
-                if ($item->ccy == strtoupper($ccy)) {
-                    $rate = ($item->buy);
-                };
-            }
+        foreach ($res as $item) {
+            if ($item->ccy == strtoupper($ccy)) {
+                $rate = ($item->buy);
+            };
         }
 
         return $rate;
