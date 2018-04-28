@@ -44,7 +44,7 @@ export default class Operation extends Component {
     }
 
     handleEdit(id) {
-        window.location.pathname = "/api/operations/" + id + "/edit";
+        window.location.pathname = `api/operation/${id}/edit`;
     }
 
     handleDelete(id) {
