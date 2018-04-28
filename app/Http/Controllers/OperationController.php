@@ -10,13 +10,15 @@ class OperationController extends Controller
 {
     /**
      * Display a listing of operations from the registered user
+     * @param null $startDate
+     * @param null $endDate
      * @param Operation $operation
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(Operation $operation)
+    public function index($startDate = null, $endDate = null, Operation $operation)
     {
         $userId = Auth::id();
-        $operation = $operation->getOperationsForUser($userId);
+        $operation = $operation->getOperationsForUser($userId, $startDate, $endDate);
         return response()->json($operation, 200);
     }
 

@@ -7,8 +7,10 @@ export default class Operation extends Component {
         super(props);
         this.state = {
             operations: [],
-            sum: null
+            sum: null,
+            error: false
         };
+        this.handleDateSearch = this.handleDateSearch.bind(this);
         this.handleEdit = this.handleEdit.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
         this.updateStateFromStore = this.updateStateFromStore.bind(this);
@@ -16,6 +18,23 @@ export default class Operation extends Component {
 
     componentDidMount() {
         axios.get('/api/operations')
+            .then(response => {
+                this.setState({operations: response.data});
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+
+    handleDateSearch() {
+        if (!this.refs.dateStart.value || !this.refs.dateEnd.value) {
+            this.setState({error: true});
+            return null;
+        }
+
+        this.setState({error: false});
+
+        axios.get(`/api/operations/${this.refs.dateStart.value}/${this.refs.dateEnd.value}`)
             .then(response => {
                 this.setState({operations: response.data});
             })
@@ -42,6 +61,7 @@ export default class Operation extends Component {
         this.componentDidMount();
     }
 
+    // Update list operations after store new operation
     updateStateFromStore(operation) {
         // this.setState({operations: [operation, ...this.state.operations]});
         this.componentDidMount();
@@ -49,6 +69,7 @@ export default class Operation extends Component {
 
     render() {
 
+        // Compute total sum for GRN and USD
         let totalSumGrn = 0;
         let totalSumUsd = 0;
 
@@ -69,6 +90,7 @@ export default class Operation extends Component {
             totalSumUsd = totalSumUsd.toFixed(2);
         }
 
+        // list operations for auth user
         const listItems = this.state.operations.map((operation, index) =>
             <tr key={operation.id}>
                 <th scope="row">{index + 1}</th>
@@ -79,7 +101,7 @@ export default class Operation extends Component {
                 </td>
                 <td className={operation.type === 'credit' ? "text-danger" : "text-success"}>
                     {operation.type === 'credit' ? "-" : ""}{operation.sum_usd}
-                    </td>
+                </td>
                 <td>{operation.created_at}</td>
                 <td>
                     <button
@@ -96,9 +118,47 @@ export default class Operation extends Component {
             </tr>
         );
 
+        const error = "Choose period for search";
+
         return (
             <div className="container">
+
+                {/*Store operation (component StoreOperation)*/}
                 <Store update={this.updateStateFromStore}/>
+
+                {/*Search by date*/}
+                <div className="offset-sm-6 col-sm-6">
+                    <div className={this.state.error ? "text-danger" : ""}>{this.state.error ? error : ""}</div>
+                    <div className="row">
+                        <div className="col-sm-4">
+                            <input
+                                ref="dateStart"
+                                type="date"
+                                name="bday"
+                                max="3000-12-31"
+                                min="1000-01-01"
+                                className="form-control"
+                                required/>
+                        </div>
+                        <div className="col-sm-4">
+                            <input
+                                ref="dateEnd"
+                                type="date"
+                                name="bday"
+                                min="1000-01-01"
+                                max="3000-12-31"
+                                className="form-control"
+                                required/>
+                        </div>
+                        <div className="col-sm-4">
+                            <button className="btn btn-outline-primary"
+                                    onClick={this.handleDateSearch}>Show
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                {/*Wrap for list operations used listItem, totalSumGrn, totalSumUsd*/}
                 <table className="table">
                     <thead className="thead-dark">
                     <tr>

@@ -21,16 +21,26 @@ class Operation extends Model
     }
 
     /**
-     * Get all operations for authenticated user
-     * @param $userId
+     * Get all operations for authenticated user and operations by date
+     * @param $userId - id auth user
+     * @param $startDate
+     * @param $endDate
      * @return mixed
      */
-    public function getOperationsForUser($userId)
+    public function getOperationsForUser($userId, $startDate, $endDate)
     {
-        return $this->whereHas('user', function ($query) use ($userId) {
+        $operations =  $this->whereHas('user', function ($query) use ($userId) {
             $query->where('id', $userId);
-        })->orderBy('created_at', 'DESC')
-            ->get();
+        });
+
+        if($startDate &&  $endDate) {
+            $operations = $operations->where('created_at', '>=', $startDate)
+                ->where('created_at', '<=', $endDate);
+        }
+
+        $operations = $operations->orderBy('created_at', 'DESC')->get();
+
+        return $operations;
     }
 
     /**

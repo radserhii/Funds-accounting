@@ -36466,8 +36466,10 @@ var Operation = function (_Component) {
 
         _this.state = {
             operations: [],
-            sum: null
+            sum: null,
+            error: false
         };
+        _this.handleDateSearch = _this.handleDateSearch.bind(_this);
         _this.handleEdit = _this.handleEdit.bind(_this);
         _this.handleDelete = _this.handleDelete.bind(_this);
         _this.updateStateFromStore = _this.updateStateFromStore.bind(_this);
@@ -36481,6 +36483,24 @@ var Operation = function (_Component) {
 
             axios.get('/api/operations').then(function (response) {
                 _this2.setState({ operations: response.data });
+            }).catch(function (error) {
+                console.log(error);
+            });
+        }
+    }, {
+        key: 'handleDateSearch',
+        value: function handleDateSearch() {
+            var _this3 = this;
+
+            if (!this.refs.dateStart.value || !this.refs.dateEnd.value) {
+                this.setState({ error: true });
+                return null;
+            }
+
+            this.setState({ error: false });
+
+            axios.get('/api/operations/' + this.refs.dateStart.value + '/' + this.refs.dateEnd.value).then(function (response) {
+                _this3.setState({ operations: response.data });
             }).catch(function (error) {
                 console.log(error);
             });
@@ -36503,6 +36523,9 @@ var Operation = function (_Component) {
 
             this.componentDidMount();
         }
+
+        // Update list operations after store new operation
+
     }, {
         key: 'updateStateFromStore',
         value: function updateStateFromStore(operation) {
@@ -36512,8 +36535,9 @@ var Operation = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
-            var _this3 = this;
+            var _this4 = this;
 
+            // Compute total sum for GRN and USD
             var totalSumGrn = 0;
             var totalSumUsd = 0;
 
@@ -36534,6 +36558,7 @@ var Operation = function (_Component) {
                 totalSumUsd = totalSumUsd.toFixed(2);
             }
 
+            // list operations for auth user
             var listItems = this.state.operations.map(function (operation, index) {
                 return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'tr',
@@ -36578,7 +36603,7 @@ var Operation = function (_Component) {
                             {
                                 className: 'btn btn-primary',
                                 onClick: function onClick() {
-                                    return _this3.handleEdit(operation.id);
+                                    return _this4.handleEdit(operation.id);
                                 } },
                             'Edit'
                         )
@@ -36591,7 +36616,7 @@ var Operation = function (_Component) {
                             {
                                 className: 'btn btn-danger',
                                 onClick: function onClick() {
-                                    return _this3.handleDelete(operation.id);
+                                    return _this4.handleDelete(operation.id);
                                 } },
                             'Delete'
                         )
@@ -36599,10 +36624,59 @@ var Operation = function (_Component) {
                 );
             });
 
+            var error = "Choose period for search";
+
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'div',
                 { className: 'container' },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__StoreOperation__["default"], { update: this.updateStateFromStore }),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'div',
+                    { className: 'offset-sm-6 col-sm-6' },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'div',
+                        { className: this.state.error ? "text-danger" : "" },
+                        this.state.error ? error : ""
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'div',
+                        { className: 'row' },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'div',
+                            { className: 'col-sm-4' },
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', {
+                                ref: 'dateStart',
+                                type: 'date',
+                                name: 'bday',
+                                max: '3000-12-31',
+                                min: '1000-01-01',
+                                className: 'form-control',
+                                required: true })
+                        ),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'div',
+                            { className: 'col-sm-4' },
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', {
+                                ref: 'dateEnd',
+                                type: 'date',
+                                name: 'bday',
+                                min: '1000-01-01',
+                                max: '3000-12-31',
+                                className: 'form-control',
+                                required: true })
+                        ),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'div',
+                            { className: 'col-sm-4' },
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'button',
+                                { className: 'btn btn-outline-primary',
+                                    onClick: this.handleDateSearch },
+                                'Show'
+                            )
+                        )
+                    )
+                ),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'table',
                     { className: 'table' },

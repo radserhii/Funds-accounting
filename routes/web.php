@@ -22,7 +22,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 //Api for React
 Route::group(['middleware' => ['auth'], 'prefix' => 'api'], function () {
-    Route::get('operations', 'OperationController@index');
+    Route::get('operations/{startDate?}/{endDate?}', 'OperationController@index');
     Route::post('operations', 'OperationController@store');
     Route::get('operations/{id}/edit', 'OperationController@edit');
     Route::put('operations/{id}', 'OperationController@update');
