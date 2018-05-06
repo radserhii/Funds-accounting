@@ -1,7 +1,5 @@
 # Funds accounting
 
-One Paragraph of project description goes here.
-
 Example: http://1249916.ty302878.web.hosting-test.net/ 
 
 login: test@test.com
